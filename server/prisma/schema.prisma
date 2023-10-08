@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String  @unique
+  password String?
+  picture  String?
+
+  userProgresses UserProgess[]
+  account        Account?
+  courses        Course[]
+}
+
+model Account {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  googleId String @unique
+  email    String
+  name     String
+  picture  String
+
+  userId String @unique @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model Course {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String?
+  image       String?
+  price       String?
+  isPublished Boolean @default(false)
+
+  creatorId String @db.ObjectId
+  creator   User   @relation(fields: [creatorId], references: [id])
+
+  categoryId String?   @db.ObjectId
+  category   Category? @relation(fields: [categoryId], references: [id])
+
+  attachments Attachment[]
+  chapters    Chapter[]
+}
+
+model Category {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+
+  courses Course[]
+}
+
+model Attachment {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  url  String
+
+  courseId String @db.ObjectId
+  course   Course @relation(fields: [courseId], references: [id])
+}
+
+model Chapter {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String?
+  video       String?
+  position    Int?
+  isPublished Boolean @default(false)
+
+  muxData  MuxData? @relation("video settings")
+  courseId String   @db.ObjectId
+  course   Course   @relation(fields: [courseId], references: [id])
+
+  userProgresses UserProgess[]
+}
+
+model MuxData {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  assetId    String
+  playbackId String?
+
+  chapterId String  @unique @db.ObjectId
+  chapter   Chapter @relation("video settings", fields: [chapterId], references: [id])
+}
+
+model UserProgess {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+
+  chapterId String  @db.ObjectId
+  chapter   Chapter @relation(fields: [chapterId], references: [id])
+
+  isCompleted Boolean @default(false)
+
+  @@unique([userId, chapterId])
+}
