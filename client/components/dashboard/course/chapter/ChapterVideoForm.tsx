@@ -74,8 +74,9 @@ const ChapterVideoForm = ({video,courseId, chapterId, playbackId}:Props) => {
                 video ? (
                     <div>
                       <MuxPlayer
+                        className="h-48"
                         playbackId={playbackId!}
-                        />;
+                        />
                     </div>
                 ) : (
                     <div className="mt-2 w-full" >
@@ -96,8 +97,9 @@ const ChapterVideoForm = ({video,courseId, chapterId, playbackId}:Props) => {
                 video ? (
                     <div className="mt-2 w-full h-60 relative" >
                         <MuxPlayer
+                        className="h-48"
                         playbackId={playbackId!}
-                        />;
+                        />
                         <UploadButton
                             endpoint="chapterVideo"
                             onClientUploadComplete={(res) => {

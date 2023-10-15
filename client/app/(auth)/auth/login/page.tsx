@@ -4,18 +4,10 @@ import Image from "next/image"
 import { useEffect, useState } from "react"
 import {useRouter} from 'next/navigation'
 import LoginForm from "@/components/login/loginForm"
-import { Button } from "@/components/ui/button"
-import { GoogleLogin } from '@react-oauth/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import GoogleAuth from "@/components/login/GoogleAuth"
-
-
-
 
 const LoginPage = () => {
     const router= useRouter()
-
-    
 
     const[isMounted,setIsMounted] = useState(true)
 
@@ -45,11 +37,7 @@ const LoginPage = () => {
                     </div>
                 </div>
                 <div className="hidden md:block md:flex-1 relative w-full h-screen" >
-                    <Image src="/authbg.avif" fill alt="auth image" className="object-cover" />
-                    {/* <div className="absolute bottom-4 left-4 text-white z-05 ">
-                        <p className="text-2xl" >Learn From Home!</p>
-                        <p className="w-[70%]" >upgrade your skills in computer scince in your home by professional teachers and hight quality!</p>
-                    </div> */}
+                    <Image src="/authbg3.jpg" fill alt="auth image" className="object-cover" />
                 </div>
             </div>
         </GoogleOAuthProvider>

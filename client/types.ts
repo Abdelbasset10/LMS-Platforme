@@ -13,6 +13,7 @@ interface CourseType {
     price : string | null
     isPublished : boolean
     creatorId : string
+    category : CategoryType,
     categoryId : string | null
     chapters : ChapterType[]
     message : string | null
@@ -29,6 +30,7 @@ interface ChapterType {
     courseId : string
     muxData : MuxType | null
     message : string | null | undefined
+    userProgresses : UserProgess[]
 }
 
 interface MuxType {
@@ -41,5 +43,12 @@ interface MuxType {
 interface CategoryType {
     id:string
     name:string
-    courses : CourseType[]
+    courses? : CourseType[]
+}
+
+interface UserProgess {
+    id : string
+    userId : string
+    chapterId:string
+    isCompleted:boolean
 }

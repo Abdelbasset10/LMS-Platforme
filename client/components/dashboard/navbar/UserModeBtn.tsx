@@ -11,18 +11,19 @@ const UserModeBtn = () => {
 
   return (
     <div>
-        {pathname.startsWith("/teacher") ? (
-                <Link href="/" >
-                    <Button size="sm" variant="ghost">
-                        <LogOut className="h-4 w-4 mr-2" />
-                        Exit
-                    </Button>
-                </Link>
-            ): (
-                <Link href="/teacher/courses" >
-                    <Button variant="ghost" >Teacher mode</Button>
-                </Link>
-            )}
+        {pathname === "/" ? (
+            <Link href="/teacher/courses" >
+                <Button variant="ghost" >Teacher mode</Button>
+            </Link>
+        ): (
+            <Link href="/" >
+                <Button size="sm" variant="ghost">
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Exit
+                </Button>
+            </Link>
+                
+        )}
     </div>
   )
 }

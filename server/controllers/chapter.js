@@ -6,6 +6,7 @@ const { Video } = new Mux(
   process.env.MUX_SECRET_KEY
 );
 
+
 const createChapter = async (req, res) => {
   try {
     const { courseId } = req.params;
@@ -153,6 +154,7 @@ const getChapter = async (req, res) => {
       },
       include: {
         muxData: true,
+        userProgresses:true
       },
     });
 
@@ -283,10 +285,71 @@ const publishUnPublishChpter = async (req, res) => {
   }
 };
 
+const markAsCompleted = async (req,res) => {
+  try {
+    const {courseId,chapterId} = req.params
+    const {userId} = req.body
+
+    if(!userId){
+      return res.status(400).json({message:"User id is required"})
+    }
+
+    if (!chapterId || !courseId) {
+      return res
+        .status(400)
+        .json({ message: "Chapter and course ids are required!" });
+    }
+
+    const course = await prisma.course.findUnique({
+      where: {
+        id: courseId,
+      },
+      include: {
+        chapters: true,
+      },
+    });
+
+    if (!course) {
+      return res.status(404).json({ message: "Course does not exists!" });
+    }
+
+    const chapter = await prisma.chapter.findUnique({
+      where: {
+        id: chapterId,
+        courseId,
+      },
+      include:{
+        userProgresses:true
+      }
+    });
+
+    if (!chapter) {
+      return res.status(404).json({ message: "chapter does not exists!" });
+    }
+
+    if(chapter.userProgresses.some((u)=>u.chapterId=== chapter && u.userId === userId && u.isCompleted === true)){
+      return res.status(400).json({message:"You already completed this message"})
+    }
+
+    const updatedProgress = await prisma.userProgess.create({
+      data:{
+        isCompleted:true,
+        userId,
+        chapterId
+      }
+    })
+
+    return res.status(200).json(updatedProgress)
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
+}
+
 const deleteChapter = async (req, res) => {
   try {
     const { courseId, chapterId } = req.params;
-
     if (!chapterId || !courseId) {
       return res
         .status(400)
@@ -313,6 +376,7 @@ const deleteChapter = async (req, res) => {
       },
       include: {
         muxData: true,
+        userProgresses:true
       },
     });
 
@@ -330,7 +394,7 @@ const deleteChapter = async (req, res) => {
     });
 
     if (chapter.video) {
-      await Video.Assets.del(chapter.muxData.assetId);
+      Video.Assets.del(chapter.muxData.assetId);
       await prisma.muxData.delete({
         where: {
           id: chapter.muxData.id,
@@ -338,6 +402,16 @@ const deleteChapter = async (req, res) => {
       });
     }
 
+    if(chapter.userProgresses.length > 0){
+      for(const progress of chapter.userProgresses){
+        await prisma.userProgess.delete({
+          where:{
+            id:progress.id,
+            chapterId:chapter.id
+          }
+        })
+      }
+    }
     await prisma.chapter.delete({
       where: {
         id: chapterId,
@@ -360,9 +434,31 @@ const deleteChapter = async (req, res) => {
       }
     }
 
+    const isCourseStayPublished = await prisma.course.findUnique({
+      where:{
+        id:courseId,
+      },
+      include:{
+        chapters:true
+      }
+      
+    })
+    
+    const ok = isCourseStayPublished.chapters.some((c)=>c.isPublished === true)
+
+    if(!ok){
+      await prisma.course.update({
+        where:{
+          id:courseId,
+        },
+        data:{
+          isPublished:false
+        }
+      })
+    }
+
     return res.status(200).json({ message: "Chapter deleted" });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ message: error.message });
   }
 };
@@ -373,5 +469,6 @@ module.exports = {
   getChapter,
   updateChapter,
   publishUnPublishChpter,
+  markAsCompleted,
   deleteChapter,
 };

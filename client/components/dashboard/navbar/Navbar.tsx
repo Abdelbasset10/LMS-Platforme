@@ -1,7 +1,7 @@
 'use client'
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { redirect } from 'next/navigation'
+import { redirect, usePathname } from 'next/navigation'
 import MobileNav from './MobileNav'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
@@ -11,6 +11,7 @@ import { store } from '@/redux/store'
 import { setUserInfo } from '@/redux/features/userSlice'
 import { useEffect } from "react"
 import { useAppDispatch } from "@/redux/hooks"
+import SearchInput from "./SearchInput"
 
 type Props = {
     user:any
@@ -19,6 +20,7 @@ type Props = {
 }
 
 const Navbar = ({user,refreshToken,accessToken} : Props) => {
+    const pathname = usePathname()
     const dispatch = useAppDispatch()
 
     useEffect(()=>{
@@ -28,9 +30,12 @@ const Navbar = ({user,refreshToken,accessToken} : Props) => {
 
     return (
         <div className='px-4 py-6 border-b h-full flex items-center justify-between' >
-            <div className='md:hidden' >
+            <div className='md:hidden mr-4' >
                 <MobileNav />
             </div>
+            {(pathname === "/" || pathname === "/dashboard") && (
+                <SearchInput />
+            )}
             <div className='ml-auto flex items-center gap-2' >
                 <UserModeBtn />
                 <Avatar className='cursor-pointer' >

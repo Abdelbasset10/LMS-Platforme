@@ -1,10 +1,10 @@
+import UserAnalytics from "@/components/dashboard/home/analyitcs/UserAnalytics";
 import Categories from "@/components/dashboard/home/category/Categories"
 import Courses from "@/components/dashboard/home/courses/Courses";
 import handleFetch from "@/helpers/handleFetch"
 import { cookies } from "next/headers"
 
-const HomePage = async ({
-  params,
+const DashboardPage = async ({
   searchParams,
 }: {
   params: { slug: string };
@@ -22,9 +22,11 @@ const HomePage = async ({
   const categories : CategoryType[] = await handleFetch("/category","GET",undefined,refreshToken,accessToken)
   const courses : CourseType[] = await handleFetch(`/course/?category=${searchParams?.category}&name=${searchParams?.name}`,"GET",undefined,refreshToken,accessToken)
   
+
   return (
     <div className='h-[calc(100vh-5rem)] overflow-y-auto' >
         <div className="px-4 h-full py-2" >
+          <UserAnalytics courses={courses} userId={parsedUser.id} />
           <Categories categories={categories} />
           {courses.length === 0 ? (
             <div className="px-4 py-2" >
@@ -40,4 +42,4 @@ const HomePage = async ({
   )
 }
 
-export default HomePage
+export default DashboardPage

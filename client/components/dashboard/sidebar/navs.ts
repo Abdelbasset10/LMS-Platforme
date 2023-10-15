@@ -4,12 +4,12 @@ export const studentRoutes = [
     {
         Icon : Layout,
         label: "Dashboard",
-        href: "/",
+        href: "/dashboard",
     },
     {
         Icon : Compass,
         label: "Browse",
-        href: "/search",
+        href: "/",
     },
 ]
 

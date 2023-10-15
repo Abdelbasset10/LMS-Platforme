@@ -1,6 +1,3 @@
-import { redirect } from 'next/navigation'
-
-
 
 const handleFetch = async (url:string,method:string,content:any | undefined,refreshToken:any,accessToken:any) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`,{

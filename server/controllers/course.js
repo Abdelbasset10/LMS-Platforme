@@ -41,6 +41,57 @@ const createCourse = async (req, res) => {
   }
 };
 
+const searchCourse = async (req,res) => {
+  try {
+    const {name} = req.query
+    
+
+    return res.status(200).json(courses)
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
+}
+
+const getAllCourses = async (req,res) => {
+  try {
+    const {category, name} = req.query
+    console.log(req.query)
+    
+    const courses = await prisma.course.findMany({
+      where:{
+        category:{
+          name:category === "undefined" ? undefined : category,
+        },
+        title : {
+          contains : name === "undefined" ? undefined : name
+        },
+        isPublished:true
+      },
+      include:{
+        category:true,
+        chapters:{
+          where:{
+            isPublished:true
+          },
+          include:{
+            userProgresses:true
+          }
+        },
+        
+      }
+    })
+
+    return res.status(200).json(courses)
+    
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
+}
+
 const getCourse = async (req, res) => {
   try {
     const { id } = req.params;
@@ -55,6 +106,44 @@ const getCourse = async (req, res) => {
       },
       include: {
         chapters: {
+          orderBy: {
+            position: "asc",
+          },
+        },
+      },
+    });
+
+    if (!course) {
+      return res.status(404).json({ message: "Course does not exists!" });
+    }
+
+    return res.status(200).json(course);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+const getCourseAsStuent = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ message: "Course id is required!" });
+    }
+
+    const course = await prisma.course.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        chapters: {
+          where:{
+            isPublished:true
+          },
+          include:{
+            userProgresses:true
+          },
           orderBy: {
             position: "asc",
           },
@@ -237,9 +326,12 @@ const deleteCourse = async (req, res) => {
 
 module.exports = {
   createCourse,
+  getAllCourses,
   getCourse,
+  getCourseAsStuent,
   getTeacherCouses,
   updateCourse,
   publishUnPublishCourse,
   deleteCourse,
+  searchCourse
 };

@@ -6,6 +6,7 @@ const {
   updateChapter,
   publishUnPublishChpter,
   deleteChapter,
+  markAsCompleted,
 } = require("../controllers/chapter");
 const { verifyToken } = require("../middleware/verifyToken");
 const router = express.Router();
@@ -17,6 +18,7 @@ router.patch(
   verifyToken,
   publishUnPublishChpter
 );
+router.patch("/complete/:courseId/:chapterId", verifyToken, markAsCompleted);
 router.patch("/:courseId", verifyToken, updateChapterPositions);
 router.get("/:courseId/:chapterId", verifyToken, getChapter);
 router.delete("/delete/:courseId/:chapterId", verifyToken, deleteChapter);
