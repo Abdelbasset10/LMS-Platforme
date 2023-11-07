@@ -17,7 +17,7 @@ const MobileNav = () => {
         <SheetTrigger asChild>
             <Menu />
         </SheetTrigger>
-        <SheetContent side="left">
+        <SheetContent side="left" className='bg-white'>
             <Sidebar />
         </SheetContent>
     </Sheet>

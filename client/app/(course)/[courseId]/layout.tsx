@@ -39,7 +39,7 @@ const CoursePageLayout = async ({children,params}:Props) => {
             <div className='md:pl-64 fixed top-0 inset-y-0 h-20 w-full ' >
                 <Navbar user={parsedUser} refreshToken={parsedRefreshToken} accessToken={accessToken.value}  />
             </div>
-            <div className='hidden md:block fixed left-0 inset-y-0 w-64 h-full overflow-y-auto z-50' >
+            <div className='invisible md:visible fixed left-0 inset-y-0 w-64 h-full overflow-y-auto z-50' >
                 <CourseSidebar userId={parsedUser.id} title={course.title} chapters={course.chapters}/>
             </div>
             <div className='md:pl-64 pt-20' >

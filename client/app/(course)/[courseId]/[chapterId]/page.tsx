@@ -12,7 +12,11 @@ const ChapterPage = async ({params}:{params:{courseId:string,chapterId:string}})
 
   const chapter : ChapterType = await handleFetch(`/chapter/${params.courseId}/${params.chapterId}`,"GET",undefined,parsedRefreshToken,accessToken)
 
-  if(!chapter || chapter.message){
+  if(!chapter){
+    return <h1>Loadding....</h1>
+  }
+
+  if(!chapter || chapter?.message){
     return redirect(`/${params.courseId}`)
   }
 

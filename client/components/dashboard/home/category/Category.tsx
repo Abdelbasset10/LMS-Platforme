@@ -2,7 +2,7 @@
 
 import React from 'react'
 import qs from 'query-string'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { cn } from '@/lib/utils'
 
 type Props = {
@@ -12,6 +12,7 @@ type Props = {
 const Category = ({category} : Props) => {
     const router = useRouter()
     const params = useSearchParams()
+    const pathname=usePathname()
     
     
 
@@ -31,7 +32,7 @@ const Category = ({category} : Props) => {
         }
     
         const url = qs.stringifyUrl({
-            url: '/',
+            url: pathname === "/" ? "/" :"/dashboard",
             query: updatedQuery
         }, { skipNull: true });
 
