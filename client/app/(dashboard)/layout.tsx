@@ -1,19 +1,18 @@
-import { cookies, headers } from 'next/headers'
+import { cookies } from 'next/headers'
 import Navbar from '@/components/dashboard/navbar/Navbar'
 import Sidebar from '@/components/dashboard/sidebar/Sidebar'
 import React from 'react'
 import { redirect } from 'next/navigation'
-import { store } from '@/redux/store'
-import { setUserInfo } from '@/redux/features/userSlice'
-import Confit from '@/components/dashboard/Confit'
 
 const DashboardLayout = ({children}:{children:React.ReactNode}) => {
     const cookiesStore = cookies()
+    console.log(cookiesStore.get("user"))
     const user = cookiesStore.get("user")
     const refreshToken = cookiesStore.get("refreshToken")
     const accessToken = cookiesStore.get("accessToken")
     if(!user || !refreshToken || !accessToken){
-        redirect("/auth/login")
+        console.log("hello");
+        return
     }
     const parsedUser = JSON.parse(user.value)
     const parsedRefreshToken = JSON.parse(refreshToken.value)
