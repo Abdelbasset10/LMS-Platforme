@@ -98,22 +98,19 @@ const signIn = async (req, res) => {
     res.cookie("refreshToken", JSON.stringify(refreshToken), {
       maxAge: 1000 * 60 * 60 * 24, // Max age in milliseconds (e.g., 1 hour)
       secure: true,
-      httpOnly: true,
-      sameSite: "lax",
+      sameSite: "None",
     });
 
     res.cookie("accessToken", JSON.stringify(accessToken), {
       maxAge: 1000 * 60 * 15, // Max age in milliseconds (e.g., 15 mins)
       secure: true,
-      httpOnly: true,
-      sameSite: "lax",
+      sameSite: "None",
     });
 
     res.cookie("user", JSON.stringify(user), {
       maxAge: 1000 * 60 * 60 * 24, // Max age in milliseconds (e.g., 1 hour)
       secure:true,
-      httpOnly: true,
-      sameSite: "lax",
+      sameSite: "None",
     });
 
     res.status(201).json({ message: "Loged In successfully!" });
@@ -193,15 +190,15 @@ const loginWithGoogle = async (req, res) => {
       res.cookie("refreshToken", JSON.stringify(refreshToken), {
         maxAge: 1000 * 60 * 60 * 24,
         secure: true,
-        httpOnly: true,
-        sameSite: "lax",
+
+        sameSite: "None",
       });
 
       res.cookie("accessToken", JSON.stringify(accessToken), {
         maxAge: 1000 * 60 * 60 * 24,
         secure: true,
-        httpOnly: true,
-        sameSite: "lax",
+
+        sameSite: "None",
       });
 
       const user = {
@@ -213,9 +210,9 @@ const loginWithGoogle = async (req, res) => {
 
       // Max age in milliseconds (e.g., 1 hour)
       res.cookie("user", JSON.stringify(user), {
-        sameSite: "lax",
+        sameSite: "None",
         maxAge: 1000 * 60 * 60 * 24,
-        httpOnly: true,
+
       });
       return res.status(201).json({ message: "Loged In successfully!" });
     }
@@ -243,15 +240,13 @@ const loginWithGoogle = async (req, res) => {
     res.cookie("refreshToken", JSON.stringify(refreshToken), {
       maxAge: 1000 * 60 * 60 * 24,
       secure: true,
-      httpOnly: true,
-      sameSite: "lax",
+      sameSite: "None",
     });
 
     res.cookie("accessToken", JSON.stringify(accessToken), {
       maxAge: 1000 * 60 * 60 * 24,
       secure: true,
-      httpOnly: true,
-      sameSite: "lax",
+      sameSite: "None",
     });
 
     const user = {
@@ -263,9 +258,8 @@ const loginWithGoogle = async (req, res) => {
 
     // Max age in milliseconds (e.g., 1 hour)
     res.cookie("user", JSON.stringify(user), {
-      sameSite: "lax",
+      sameSite: "None",
       maxAge: 1000 * 60 * 60 * 24,
-      httpOnly: true,
     });
     return res.status(201).json({ message: "Loged In successfully!" });
   } catch (error) {
