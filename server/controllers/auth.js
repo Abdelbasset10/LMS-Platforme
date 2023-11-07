@@ -85,20 +85,6 @@ const signIn = async (req, res) => {
       { expiresIn: "15m" }
     );
 
-    res.cookie("refreshToken", JSON.stringify(refreshToken), {
-      maxAge: 1000 * 60 * 60 * 24,
-      secure: true,
-      httpOnly: true,
-      sameSite: "lax",
-    });
-
-    res.cookie("accessToken", JSON.stringify(accessToken), {
-      maxAge: 1000 * 60 * 60 * 24,
-      secure: true,
-      httpOnly: true,
-      sameSite: "lax",
-    });
-
     const user = {
       id: isExistsUser.id,
       name: isExistsUser.name,
@@ -106,11 +92,28 @@ const signIn = async (req, res) => {
       picture: isExistsUser.picture,
     };
 
-    // Max age in milliseconds (e.g., 1 hour)
-    res.cookie("user", JSON.stringify(user), {
-      sameSite: "lax",
-      maxAge: 1000 * 60 * 60 * 24,
+    // auth logic like verify email and check password...ect
+    //..
+    //..
+    res.cookie("refreshToken", JSON.stringify(refreshToken), {
+      maxAge: 1000 * 60 * 60 * 24, // Max age in milliseconds (e.g., 1 hour)
+      secure: true,
       httpOnly: true,
+      sameSite: "lax",
+    });
+
+    res.cookie("accessToken", JSON.stringify(accessToken), {
+      maxAge: 1000 * 60 * 15, // Max age in milliseconds (e.g., 15 mins)
+      secure: true,
+      httpOnly: true,
+      sameSite: "lax",
+    });
+
+    res.cookie("user", JSON.stringify(user), {
+      maxAge: 1000 * 60 * 60 * 24, // Max age in milliseconds (e.g., 1 hour)
+      secure:true,
+      httpOnly: true,
+      sameSite: "lax",
     });
 
     res.status(201).json({ message: "Loged In successfully!" });
