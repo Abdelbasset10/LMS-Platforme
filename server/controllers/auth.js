@@ -189,15 +189,15 @@ const loginWithGoogle = async (req, res) => {
 
       res.cookie("refreshToken", JSON.stringify(refreshToken), {
         maxAge: 1000 * 60 * 60 * 24,
+        domain:'onrender.com',
         secure: true,
-
         sameSite: "None",
       });
 
       res.cookie("accessToken", JSON.stringify(accessToken), {
         maxAge: 1000 * 60 * 60 * 24,
+        domain:'onrender.com',
         secure: true,
-
         sameSite: "None",
       });
 
@@ -211,7 +211,9 @@ const loginWithGoogle = async (req, res) => {
       // Max age in milliseconds (e.g., 1 hour)
       res.cookie("user", JSON.stringify(user), {
         sameSite: "None",
+        domain:'onrender.com',
         maxAge: 1000 * 60 * 60 * 24,
+        secure: true
 
       });
       return res.status(201).json({ message: "Loged In successfully!" });
@@ -239,12 +241,14 @@ const loginWithGoogle = async (req, res) => {
 
     res.cookie("refreshToken", JSON.stringify(refreshToken), {
       maxAge: 1000 * 60 * 60 * 24,
+      domain:'onrender.com',
       secure: true,
       sameSite: "None",
     });
 
     res.cookie("accessToken", JSON.stringify(accessToken), {
       maxAge: 1000 * 60 * 60 * 24,
+      domain:'onrender.com',
       secure: true,
       sameSite: "None",
     });
@@ -259,7 +263,9 @@ const loginWithGoogle = async (req, res) => {
     // Max age in milliseconds (e.g., 1 hour)
     res.cookie("user", JSON.stringify(user), {
       sameSite: "None",
+      domain:'onrender.com',
       maxAge: 1000 * 60 * 60 * 24,
+      secure:true
     });
     return res.status(201).json({ message: "Loged In successfully!" });
   } catch (error) {
