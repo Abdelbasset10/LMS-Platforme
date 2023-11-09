@@ -47,6 +47,7 @@ const LoginForm = () => {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/sign-in`,{
                 credentials : "include", // allows cookies and credentials to be included in the response
                 method:"POST",
+                mode: 'no-cors',
                 headers:{
                     "Content-Type": "application/json",  
                 },

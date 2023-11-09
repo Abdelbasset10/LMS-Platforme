@@ -4,20 +4,19 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 
-const corsOptions = require("./config/corsConfig");
+const corsOptions = require("../config/corsConfig");
 
-const prisma = require("./utils/prisma");
+const prisma = require("../utils/prisma");
 
-const authRouter = require("./routes/auth");
-const refreshRouter = require("./routes/refresh");
-const courseRouter = require("./routes/course");
-const categoryRouter = require("./routes/category");
-const chapterRouter = require("./routes/chapter");
+const authRouter = require("../routes/auth");
+const refreshRouter = require("../routes/refresh");
+const courseRouter = require("../routes/course");
+const categoryRouter = require("../routes/category");
+const chapterRouter = require("../routes/chapter");
 
 const app = express();
 
 app.use(cors({ origin: 'http://localhost:3000' }));
-app.use(express.static('public'))
 app.use(cookieParser());
 app.use(express.json());
 
