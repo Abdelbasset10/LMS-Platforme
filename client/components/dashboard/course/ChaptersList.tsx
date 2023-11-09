@@ -34,7 +34,6 @@ const ChaptersList = ({chapters, courseId} : Props) => {
     try {
       setIsOrdering(true)
       const res = await handleFetch(`/chapter/${courseId}`,"PATCH",values,refreshToken,accessToken)
-      console.log(res)
       router.refresh()
       toast.success("Chapters ordered")
     } catch (error) {

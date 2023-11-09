@@ -43,7 +43,6 @@ const DescriptionForm = ({image,courseId}:Props) => {
 
 
     const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values)
         try {
             const res = await handleFetch(`/course/${courseId}`,"PATCH",values,refreshToken,accessToken)
             if(res?.message){

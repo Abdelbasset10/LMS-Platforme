@@ -88,14 +88,12 @@ const updateChapterPositions = async (req, res) => {
 
     const { desPos, sourcePos } = req.body;
 
-    console.log(desPos, sourcePos);
 
     if (!courseId) {
       return res.status(400).json({ message: "Course id is required!" });
     }
 
     if (desPos === undefined || !sourcePos === undefined) {
-      console.log("miss info");
       return res.status(400).json({ message: "Missing position values!" });
     }
 
@@ -170,7 +168,6 @@ const getChapter = async (req, res) => {
 };
 
 const updateChapter = async (req, res) => {
-  console.log("first");
   try {
     const { courseId, chapterId } = req.params;
     const { isPublished, ...values } = req.body;

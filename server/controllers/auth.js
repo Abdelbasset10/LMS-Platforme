@@ -95,39 +95,14 @@ const signIn = async (req, res) => {
     // auth logic like verify email and check password...ect
     //..
     //..
-    res.cookie("refreshToken", JSON.stringify(refreshToken), {
-      maxAge: 1000 * 60 * 60 * 24, // Max age in milliseconds (e.g., 1 hour)
-      secure: true,
-      sameSite: "None",
-    });
 
-    res.cookie("accessToken", JSON.stringify(accessToken), {
-      maxAge: 1000 * 60 * 15, // Max age in milliseconds (e.g., 15 mins)
-      secure: true,
-      sameSite: "None",
-    });
-
-    res.cookie("user", JSON.stringify(user), {
-      maxAge: 1000 * 60 * 60 * 24, // Max age in milliseconds (e.g., 1 hour)
-      secure:true,
-      sameSite: "None",
-    });
-
-    res.status(201).json({ message: "Loged In successfully!" });
+    res.status(201).json({user,refreshToken,accessToken});
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: error.message });
   }
 };
 
-const test = (req, res) => {
-  try {
-    res.status(200).json({ message: "text" });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: error.message });
-  }
-};
 
 const loginWithGoogle = async (req, res) => {
   try {
@@ -186,37 +161,7 @@ const loginWithGoogle = async (req, res) => {
         process.env.JWT_ACCESS_TOKEN_SECRET,
         { expiresIn: "15m" }
       );
-
-      res.cookie("refreshToken", JSON.stringify(refreshToken), {
-        maxAge: 1000 * 60 * 60 * 24,
-        domain:'onrender.com',
-        secure: true,
-        sameSite: "None",
-      });
-
-      res.cookie("accessToken", JSON.stringify(accessToken), {
-        maxAge: 1000 * 60 * 60 * 24,
-        domain:'onrender.com',
-        secure: true,
-        sameSite: "None",
-      });
-
-      const user = {
-        id: newUser.id,
-        name: newUser.name,
-        email: newUser.email,
-        picture: newUser.picture,
-      };
-
-      // Max age in milliseconds (e.g., 1 hour)
-      res.cookie("user", JSON.stringify(user), {
-        sameSite: "None",
-        domain:'onrender.com',
-        maxAge: 1000 * 60 * 60 * 24,
-        secure: true
-
-      });
-      return res.status(201).json({ message: "Loged In successfully!" });
+      return res.status(201).json({user,refreshToken,accessToken});
     }
 
     const theUser = await prisma.user.findFirst({
@@ -239,36 +184,13 @@ const loginWithGoogle = async (req, res) => {
       { expiresIn: "15m" }
     );
 
-    res.cookie("refreshToken", JSON.stringify(refreshToken), {
-      maxAge: 1000 * 60 * 60 * 24,
-      domain:'onrender.com',
-      secure: true,
-      sameSite: "None",
-    });
-
-    res.cookie("accessToken", JSON.stringify(accessToken), {
-      maxAge: 1000 * 60 * 60 * 24,
-      domain:'onrender.com',
-      secure: true,
-      sameSite: "None",
-    });
-
     const user = {
       id: theUser.id,
       name: theUser.name,
       email: theUser.email,
       picture: theUser.picture,
     };
-
-    // Max age in milliseconds (e.g., 1 hour)
-    res.cookie("user", JSON.stringify(user), {
-      sameSite: "None",
-      domain:'onrender.com',
-      maxAge: 1000 * 60 * 60 * 24,
-      secure:true
-    });
-    return res.status(201).json({ message: "Loged In successfully!" });
-  } catch (error) {
+    return res.status(201).json({user,refreshToken,accessToken});  } catch (error) {
     console.log(error);
     return res.status(500).json({ message: error.message });
   }
@@ -290,6 +212,5 @@ module.exports = {
   signUp,
   signIn,
   logOut,
-  test,
   loginWithGoogle,
 };

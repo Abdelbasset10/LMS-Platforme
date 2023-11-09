@@ -18,7 +18,6 @@ const CoursesTeacherPage = async () => {
   const parsedUser = JSON.parse(user?.value!)
 
   const courses = await handleFetch(`/course/teacher/${parsedUser.id}`,"GET",undefined,refreshToken,accessToken)
-  console.log(courses)
   return (
     <div className='h-[calc(100vh-5rem)] overflow-y-auto' >
       <div className='px-6 py-4' >

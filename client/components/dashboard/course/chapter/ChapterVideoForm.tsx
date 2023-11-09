@@ -46,7 +46,6 @@ const ChapterVideoForm = ({video,courseId, chapterId, playbackId}:Props) => {
 
 
     const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values)
         try {
             const res : any = await handleFetch(`/chapter/update/${courseId}/${chapterId}`,"PATCH",values,refreshToken,accessToken)
             if(res?.message){
@@ -83,7 +82,6 @@ const ChapterVideoForm = ({video,courseId, chapterId, playbackId}:Props) => {
                         <UploadDropzone
                             endpoint="chapterVideo"
                             onClientUploadComplete={(res) => {
-                                console.log(res)
                             handleSubmit({video:res?.[0].url!})
                             }}
                             onUploadError={(error: Error) => {
@@ -103,7 +101,6 @@ const ChapterVideoForm = ({video,courseId, chapterId, playbackId}:Props) => {
                         <UploadButton
                             endpoint="chapterVideo"
                             onClientUploadComplete={(res) => {
-                                console.log(res)
                             handleSubmit({video:res?.[0].url!})
                             }}
                             onUploadError={(error: Error) => {

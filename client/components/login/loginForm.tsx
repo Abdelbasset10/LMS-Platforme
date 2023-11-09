@@ -47,18 +47,33 @@ const LoginForm = () => {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/sign-in`,{
                 credentials : "include", // allows cookies and credentials to be included in the response
                 method:"POST",
-                mode: 'no-cors',
                 headers:{
                     "Content-Type": "application/json",  
                 },
                 body:JSON.stringify(values)
             })
             const data = await res.json()
-            if(data.message && data.message !=="Loged In successfully!"){
+            if(data.message){
                 return toast.error(data.message)
             }
-            toast.success(data.message)
+            const res2 = await fetch("http://localhost:3000/api/store",{
+                method:"POST",
+                headers:{
+                    "Content-Type": "application/json",  
+                },
+                body:JSON.stringify({
+                    user:data.user,
+                    refreshToken:data.refreshToken,
+                    accessToken:data.accessToken
+                })
+            })
+            const data2 = await res2.json()
+            if(data2 !== "cookies setted succefully"){
+                return toast.error("Something went wrong")
+            }
+            toast.success("Loged in succesfully!")
             router.push("/")
+            
         } catch (error) {
             console.log(error)
             toast.error("Something went wrong!")

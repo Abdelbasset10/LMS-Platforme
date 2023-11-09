@@ -6,13 +6,11 @@ import { redirect } from 'next/navigation'
 
 const DashboardLayout = ({children}:{children:React.ReactNode}) => {
     const cookiesStore = cookies()
-    console.log(cookiesStore.get("user"))
     const user = cookiesStore.get("user")
     const refreshToken = cookiesStore.get("refreshToken")
     const accessToken = cookiesStore.get("accessToken")
     if(!user || !refreshToken || !accessToken){
-        console.log("hello");
-        return
+        redirect("/auth/login")
     }
     const parsedUser = JSON.parse(user.value)
     const parsedRefreshToken = JSON.parse(refreshToken.value)

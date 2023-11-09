@@ -3,7 +3,6 @@ const {
   signUp,
   signIn,
   logOut,
-  test,
   loginWithGoogle,
 } = require("../controllers/auth");
 const { verifyToken } = require("../middleware/verifyToken");
@@ -14,6 +13,5 @@ router.post("/sign-up", signUp);
 router.post("/sign-in", signIn);
 router.post("/sign-in/google", loginWithGoogle);
 router.post("/logout", logOut);
-router.get("/test", verifyToken, test);
 
 module.exports = router;

@@ -10,7 +10,6 @@ const { Video } = new Mux(
 const createCourse = async (req, res) => {
   try {
     const { creatorId, title } = req.body;
-    console.log(req.body);
     if (!creatorId || !title) {
       return res.status(400).json({ message: "Missed informations!" });
     }
@@ -57,7 +56,6 @@ const searchCourse = async (req,res) => {
 const getAllCourses = async (req,res) => {
   try {
     const {category, name} = req.query
-    console.log(req.query)
     
     const courses = await prisma.course.findMany({
       where:{
