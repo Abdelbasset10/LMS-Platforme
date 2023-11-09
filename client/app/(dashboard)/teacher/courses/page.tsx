@@ -16,8 +16,10 @@ const CoursesTeacherPage = async () => {
 
   const refreshToken = JSON.parse(refToken!.value)
   const parsedUser = JSON.parse(user?.value!)
+  const parsedAccessToken = JSON.parse(accessToken!.value)
 
-  const courses = await handleFetch(`/course/teacher/${parsedUser.id}`,"GET",undefined,refreshToken,accessToken)
+
+  const courses = await handleFetch(`/course/teacher/${parsedUser.id}`,"GET",undefined,refreshToken,parsedAccessToken)
   return (
     <div className='h-[calc(100vh-5rem)] overflow-y-auto' >
       <div className='px-6 py-4' >

@@ -44,12 +44,27 @@ const GoogleAuth = ({isSubmiting} : Props) => {
                             })
                         })
                         const data2 = await res2.json()
-                        if(data2.message && data2.message !=="Loged In successfully!"){
-                            return toast.error(data2.message)
+                        if(data2.message){
+                            return toast.error(data.message)
                         }
-                        toast.success(data2.message)
-                        router.push("/")
-                    })
+                        const res3 = await fetch("http://localhost:3000/api/store",{
+                            method:"POST",
+                            headers:{
+                                "Content-Type": "application/json",  
+                            },
+                            body:JSON.stringify({
+                                user:data2.user,
+                                refreshToken:data2.refreshToken,
+                                accessToken:data2.accessToken
+                                })
+                            })
+                            const data3 = await res3.json()
+                            if(data3 !== "cookies setted succefully"){
+                                return toast.error("Something went wrong")
+                            }
+                            toast.success("Loged in succesfully!")
+                            router.push("/")
+                        })
                     .catch((err) => console.log(err));
             }
         },

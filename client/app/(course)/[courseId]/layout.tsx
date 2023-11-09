@@ -25,7 +25,9 @@ const CoursePageLayout = async ({children,params}:Props) => {
 
     const parsedUser = JSON.parse(user.value)
     const parsedRefreshToken = JSON.parse(refreshToken.value)
-    const course : CourseType = await handleFetch(`/course/student/${params.courseId}`,"GET",undefined,parsedRefreshToken,accessToken)
+    const parsedAccessTokenToken = JSON.parse(accessToken.value)
+
+    const course : CourseType = await handleFetch(`/course/student/${params.courseId}`,"GET",undefined,parsedRefreshToken,parsedAccessTokenToken)
     
     if(!course || course?.message){
         return redirect("/")

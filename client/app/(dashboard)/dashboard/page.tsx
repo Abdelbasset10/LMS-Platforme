@@ -18,9 +18,10 @@ const DashboardPage = async ({
 
   const refreshToken = JSON.parse(refToken!.value)
   const parsedUser = JSON.parse(user!.value)
+  const parsedAccessToken = JSON.parse(accessToken!.value)
 
-  const categories : CategoryType[] = await handleFetch("/category","GET",undefined,refreshToken,accessToken)
-  const courses : CourseType[] = await handleFetch(`/course/?category=${searchParams?.category}&name=${searchParams?.name}`,"GET",undefined,refreshToken,accessToken)
+  const categories : CategoryType[] = await handleFetch("/category","GET",undefined,refreshToken,parsedAccessToken)
+  const courses : CourseType[] = await handleFetch(`/course/?category=${searchParams?.category}&name=${searchParams?.name}`,"GET",undefined,refreshToken,parsedAccessToken)
   
 
   return (

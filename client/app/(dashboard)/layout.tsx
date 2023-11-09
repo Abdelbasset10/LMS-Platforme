@@ -14,13 +14,12 @@ const DashboardLayout = ({children}:{children:React.ReactNode}) => {
     }
     const parsedUser = JSON.parse(user.value)
     const parsedRefreshToken = JSON.parse(refreshToken.value)
-
-    
+    const parsedAccessToken = JSON.parse(accessToken.value)
 
     return (
         <div className='' >
             <div className='md:pl-64 fixed top-0 inset-y-0 h-20 w-full ' >
-                <Navbar user={parsedUser} refreshToken={parsedRefreshToken} accessToken={accessToken.value}  />
+                <Navbar user={parsedUser} refreshToken={parsedRefreshToken} accessToken={parsedAccessToken}  />
             </div>
             <div className='hidden md:block fixed left-0 inset-y-0 w-64 h-full overflow-y-auto z-50' >
                 <Sidebar />
