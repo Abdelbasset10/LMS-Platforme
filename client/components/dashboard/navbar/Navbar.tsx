@@ -1,7 +1,7 @@
 'use client'
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { redirect, usePathname } from 'next/navigation'
+import { redirect, usePathname, useRouter } from 'next/navigation'
 import MobileNav from './MobileNav'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
@@ -9,9 +9,10 @@ import { LogOut } from 'lucide-react'
 import UserModeBtn from './UserModeBtn'
 import { store } from '@/redux/store'
 import { setUserInfo } from '@/redux/features/userSlice'
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useAppDispatch } from "@/redux/hooks"
 import SearchInput from "./SearchInput"
+import toast from "react-hot-toast"
 
 type Props = {
     user:any
@@ -20,12 +21,30 @@ type Props = {
 }
 
 const Navbar = ({user,refreshToken,accessToken} : Props) => {
+    const router = useRouter()
     const pathname = usePathname()
     const dispatch = useAppDispatch()
+
+    const [isOpen,setIsOpen] = useState(false)
+
+    const handleLogOut = async () => {
+        const res = await fetch("http://localhost:3000/api/store/delete",{
+                method:"POST",
+                headers:{
+                    "Content-Type": "application/json",  
+                },
+            })
+            const data = await res.json()
+            if(data !== "cookies has been deleted"){
+                return toast.error("Something went wrong")
+            }
+            router.refresh()
+    }
 
     useEffect(()=>{
         dispatch(setUserInfo({user,refreshToken,accessToken}))
     })
+
 
 
     return (
@@ -38,10 +57,15 @@ const Navbar = ({user,refreshToken,accessToken} : Props) => {
             )}
             <div className='ml-auto flex items-center gap-2' >
                 <UserModeBtn />
-                <Avatar className='cursor-pointer' >
-                    <AvatarImage src={user?.picture} />
-                    <AvatarFallback className='bg-slate-500/20' >{user?.name.toString().charAt(0).toUpperCase()}</AvatarFallback>
-                </Avatar>  
+                <div className="relative" >
+                    <Avatar className='cursor-pointer' onClick={()=>setIsOpen((prev)=>!prev)} >
+                        <AvatarImage src={user?.picture} />
+                        <AvatarFallback className='bg-slate-500/20' >{user?.name.toString().charAt(0).toUpperCase()}</AvatarFallback>
+                    </Avatar> 
+                    {isOpen && (
+                        <Button className="absolute top-10 right-4 bg-slate-300 hover:bg-slate-500 rounded-[8px]" onClick={handleLogOut} >LogOut</Button>
+                    )}
+                </div> 
                 
             </div>
         </div>
