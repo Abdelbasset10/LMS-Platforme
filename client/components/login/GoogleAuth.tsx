@@ -47,7 +47,7 @@ const GoogleAuth = ({isSubmiting} : Props) => {
                         if(data2.message){
                             return toast.error(data.message)
                         }
-                        const res3 = await fetch("https://lms-platforme-2kt409krj-abdelbasset10.vercel.app/api/store",{
+                        const res3 = await fetch("https://lms-platforme.vercel.app/api/store",{
                             method:"POST",
                             headers:{
                                 "Content-Type": "application/json",  
