@@ -1,4 +1,4 @@
-const allowedOrigins = ["https://lms-platforme.vercel.app","http://localhost:3000"];
+const allowedOrigins = ["https://lms-platforme-git-main-abdelbasset10.vercel.app","http://localhost:3000"];
 
 const corsOptions = {
   origin: (origin, callback) => {
