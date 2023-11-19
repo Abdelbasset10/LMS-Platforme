@@ -56,7 +56,7 @@ const LoginForm = () => {
             if(data.message){
                 return toast.error(data.message)
             }
-            const res2 = await fetch("https://lms-platforme.vercel.app/api/store",{
+            const res2 = await fetch("https://lms-platforme-abdelbasset10.vercel.app/api/store",{
                 method:"POST",
                 headers:{
                     "Content-Type": "application/json",  

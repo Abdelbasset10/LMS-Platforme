@@ -28,7 +28,7 @@ const Navbar = ({user,refreshToken,accessToken} : Props) => {
     const [isOpen,setIsOpen] = useState(false)
 
     const handleLogOut = async () => {
-        const res = await fetch("https://lms-platforme.vercel.app/api/store/delete",{
+        const res = await fetch("https://lms-platforme-abdelbasset10.vercel.app/api/store/delete",{
                 method:"POST",
                 headers:{
                     "Content-Type": "application/json",  
